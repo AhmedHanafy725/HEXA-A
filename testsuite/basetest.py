@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from testsuite.login.login import Login
 from unittest import TestCase
+from uuid import uuid4
 import logging
 
 
@@ -24,3 +25,6 @@ class BaseTest(TestCase):
 
     def log(self, msg):
         logging.info(msg)
+
+    def random_string(self):
+        return str(uuid4())[:10]
