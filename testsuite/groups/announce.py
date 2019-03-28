@@ -13,10 +13,10 @@ class Announcement:
         self.go_to()
         add = self.driver.find_element_by_id('create-announcement-button')
         add.click()
-        announce_model = self.driver.find_element_by_id('create-announcement-modal')
-        content = announce_model.find_element_by_name('content')
+        model = self.driver.find_element_by_id('create-announcement-modal')
+        content = model.find_element_by_name('content')
         content.send_keys(text)
-        submit = announce_model.find_element_by_class_name('green')
+        submit = model.find_element_by_class_name('green')
         submit.click()
 
     def remove(self, announce_number=1):
@@ -25,7 +25,7 @@ class Announcement:
         drops = self.driver.find_elements_by_class_name('dropdown')
         delete_drop = drops[total_num - announce_number]
         delete_drop.click()
-        delete_button = self.driver.find_element_by_class_name('transition')
+        delete_button = delete_drop.find_element_by_name('removeAnnouncement')
         delete_button.click()
 
     def get_text(self, announce_number=1):

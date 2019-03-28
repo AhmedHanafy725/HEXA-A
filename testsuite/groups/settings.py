@@ -33,5 +33,6 @@ class Settings:
         self.go_to()
         remove = self.driver.find_element_by_id('delete-group-button')
         remove.click()
-        remove_button = self.driver.find_element_by_xpath('//*[@id="delete-group-modal"]/div[3]/button[2]')
+        model = self.driver.find_element_by_id('delete-group-modal')
+        remove_button = model.find_element_by_class_name('red')
         remove_button.click()

@@ -10,32 +10,24 @@ class Assignment:
         self.details  = Details(self.driver)
         self.submissions = Submissions(self.driver)
 
-    def go_to(self, name=None):
+    def go_to(self):
         time.sleep(1)
         assignment = self.driver.find_element_by_link_text('Assignments')
         assignment.click()
-        if name:
-            assign = self.get_by_name(name)
-            select = assign.find_element_by_tag_name('a')
-            select.click()
-
+        
     def add(self, name, date, description=''):
         self.go_to()
         assgin = self.driver.find_element_by_id('create-assignment-button')
         assgin.click()
-        assign_model = self.driver.find_element_by_id('create-assignment-modal')
-        assign_name = assign_model.find_element_by_name('name')
+        model = self.driver.find_element_by_id('create-assignment-modal')
+        assign_name = model.find_element_by_name('name')
         assign_name.send_keys(name)
-        deadline = assign_model.find_element_by_name('deadline')
+        deadline = model.find_element_by_name('deadline')
         deadline.send_keys(date)
-        desc = assign_model.find_element_by_name('description')
+        desc = model.find_element_by_name('description')
         desc.send_keys(description)
-        submit = assign_model.find_element_by_class_name('green')
+        submit = model.find_element_by_class_name('green')
         submit.click()
-
-    def remove(self, name):
-        self.go_to(name)
-        self.settings.remove()
 
     def get_by_name(self, name):
         self.go_to()
@@ -44,3 +36,9 @@ class Assignment:
         for item in items:
             if name in item.text:
                 return item
+
+    def select(self, name):
+        self.go_to()
+        assign = self.get_by_name(name)
+        select = assign.find_element_by_tag_name('a')
+        select.click()

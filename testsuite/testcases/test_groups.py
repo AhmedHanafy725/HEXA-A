@@ -1,7 +1,6 @@
 from testsuite.basetest import BaseTest
-from testsuite.login.login import Login
 from testsuite.groups.groups import Groups
-
+import unittest
 
 class GroupsTest(BaseTest):
     
@@ -82,7 +81,8 @@ class GroupsTest(BaseTest):
         self.assertTrue(assignment)
 
         self.log('Remove the assignment that has been created')
-        self.groups.assignment.remove(assign_name)
+        self.groups.assignment.select(name=assign_name)
+        self.groups.assignment.settings.remove()
 
     def test006_add_more_assignment(self):
         self.log('Create assginment')
@@ -102,8 +102,10 @@ class GroupsTest(BaseTest):
         self.assertTrue(assignment)
 
         self.log('Remove the assignments that has been created')
-        self.groups.assignment.remove(assign_name_1)
-        self.groups.assignment.remove(assign_name_2)
+        self.groups.assignment.select(assign_name_1)
+        self.groups.assignment.settings.remove()
+        self.groups.assignment.select(assign_name_2)
+        self.groups.assignment.settings.remove()
 
     def test007_update_assignment_info(self):
         self.log('Create assignment')
@@ -119,9 +121,41 @@ class GroupsTest(BaseTest):
         self.log('Check that info has been updated')
         assignment = self.groups.assignment.get_by_name(name=new_name)
         self.assertTrue(assignment)
-        self.groups.assignment.go_to(name=new_name)
+        self.groups.assignment.select(name=new_name)
         desc = self.groups.assignment.details.get_description()
         self.assertAlmostEquals(desc, new_desc)
 
         self.log('remove assignment')
-        self.groups.assignment.remove(new_name)
+        self.groups.assignment.settings.remove()
+
+    def test008_add_testsuite(self):
+        self.log('Create testsuite')
+        testsuite_name = self.random_string()
+        self.groups.testsuite.add(name=testsuite_name)
+
+        self.log('Check that testsuite has been created')
+        testsuite = self.groups.testsuite.get(name=testsuite_name)
+        self.assertTrue(testsuite)
+
+        self.log('Remove testsuite')
+        self.groups.testsuite.select(name=testsuite_name)
+        self.groups.testsuite.settings.remove()
+
+    @unittest.skip('https://github.com/ahmedelsayed-93/hexa-a/issues/10')
+    def test009_update_testsuite_info(self):
+        self.log('Create testsuite')
+        testsuite_name = self.random_string()
+        self.groups.testsuite.add(name=testsuite_name)
+
+        self.log('Update testsuite info')
+        name = self.random_string()
+        self.groups.testsuite.select(name=testsuite_name)
+        self.groups.testsuite.settings.update_info(new_name=name)
+
+        self.log('Check that info has been updated')
+        testsuite = self.groups.testsuite.get(name=name)
+        self.assertTrue(testsuite)
+
+        self.log('Remove testsuite')
+        self.groups.testsuite.select(name=testsuite_name)
+        self.groups.testsuite.settings.remove()

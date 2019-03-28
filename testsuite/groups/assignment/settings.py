@@ -29,6 +29,6 @@ class Settings:
         self.go_to()
         delete_button = self.driver.find_element_by_id('delete-assignment-button')
         delete_button.click()
-        transition = self.driver.find_element_by_class_name('transition')
-        delete = transition.find_element_by_class_name('red')
+        model = self.driver.find_element_by_id('delete-assignment-modal')
+        delete = model.find_element_by_class_name('red')
         delete.click()

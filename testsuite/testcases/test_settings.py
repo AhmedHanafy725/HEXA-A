@@ -1,5 +1,4 @@
 from testsuite.basetest import BaseTest
-from testsuite.login.login import Login
 from testsuite.settings.settings import Settings
 
 
